@@ -1,54 +1,57 @@
-// pages/import/import.js
+var helper = require("../../utils/helper");
 Page({
   data: {},
   onLoad: function (options) {
-   
+
   },
   onReady: function () {
-     wx.scanCode({
+    var that = this;
+    wx.scanCode({
       success: function (res) {
-        console.log(res.result);
-        var data = JSON.parse(res.result);
-        console.log(data);
-        data.forEach(function (e) {
-          wx.setStorage({
-            key: e.k, // 使用secret作为key方便判断数据是否已经存在
-            data: {
-              secret: e.k,
-              name: e.s, // 此处为表单数据，
-              username: e.u,
-              desc: e.u,
-              latitude: 0, //此处为页面的data
-              longitude: 0,
-              signedBy: e.s,
-              key: e.k,
-            },
-            success: function (res) {
-              /*
-              * 成功后跳转到addSuccess页面，传递参数id，用于该页面跳转success。
-              */
-              wx.redirectTo({
-                url: '../addSucc/addSucc?id=' + e.k
-              })
-            },
-            fail: function () {
-              /*
-               * 如果数据存储出错。提示报错。
-               */
-              wx.showModal({
-                title: '数据存储出错！',
-                content: '数据存储出错！请联系管理员！',
-                success: function (res) {
-                  if (res.confirm) {
-                    wx.switchTab({
-                      url: '../servers/servers'
-                    })
-                  }
-                }
-              })
-            }
-          })
+        wx.showToast({
+          title: '恢复中',
+          icon: 'success',
+          duration: 10000
         })
+        var ignore_numbers = 0;
+        var data = JSON.parse(res.result);
+        var server = data.s;
+        var raw_data = wx.getStorageSync('servers');
+        var old_servers = JSON.parse(raw_data);
+        var old_length = old_servers.length;
+        server.forEach(function (value, index, array) {
+          if (old_length == 0) {
+            old_servers.push({ "secret": value.s, "name": decodeURI(value.b), "username": decodeURI(value.b), "desc": decodeURI(value.b), "latitude": value.la, "longitude": value.lo, "signedBy": decodeURI(value.b), "key": value.s })
+          } else {
+            var is_exist = helper.inArray(value.s, old_servers)
+            if (is_exist == false) {
+              old_servers.push({ "secret": value.s, "name": decodeURI(value.b), "username": decodeURI(value.b), "desc": decodeURI(value.b), "latitude": value.la, "longitude": value.lo, "signedBy": decodeURI(value.b), "key": value.s })
+            }else{
+              ignore_numbers ++;
+            }
+          }
+
+        });
+        wx.setStorage({
+          key: 'servers',
+          data: JSON.stringify(old_servers),
+          success: function (res) {
+            wx.hideToast();
+            wx.showModal({
+              title:"恭喜！场景恢复成功！",
+              content:"您的场景已经恢复成功，共"+server.length+"个场景，跳过"+ignore_numbers+"个重复场景。",
+              showCancel:false,
+              success:function(res){
+                
+                  wx.switchTab({
+                    url: '../servers/servers'
+                  })
+                
+              }
+            })
+          },
+        })
+
       },
       fail: function () {
         wx.showModal({
@@ -62,14 +65,5 @@ Page({
       },
 
     })
-  },
-  onShow: function () {
-    // 页面显示
-  },
-  onHide: function () {
-    // 页面隐藏
-  },
-  onUnload: function () {
-    // 页面关闭
   }
 })

@@ -1,5 +1,6 @@
 {
     "pages": [
+        
         "pages/servers/servers",
         "pages/ingress/ingress",
         "pages/index/index",
@@ -13,9 +14,9 @@
         "pages/manual/manual",
         "pages/thank/thank",
         "pages/linuxcnManual/linuxcnManual",
-        "pages/import/import",
         "pages/backup/backup",
-        "pages/backupImg/backupImg"
+        "pages/backupImg/backupImg",
+        "pages/import/import"
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -34,7 +35,6 @@
         "borderStyle": "black",
         "backgroundColor": "#fff",
         "list": [
-           
             {
                 "pagePath": "pages/servers/servers",
                 "text": "场景",

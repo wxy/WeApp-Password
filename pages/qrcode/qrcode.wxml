@@ -1,10 +1,16 @@
 <view class="container-box">
-    <view class="img-box">
-        <!-- 直接使用渲染到视图中的ID加载图片  -->
-        <image src="https://linux.cn/weixin/api/otp.php?qrcode&id={{id}}" catchtap="alertInfo" catchlongtap="previewImg" ></image>
+  <view class="img-box">
+    <!-- 直接使用渲染到视图中的ID加载图片  -->
+    <image src="https://linux.cn/weixin/api/otp.php?qrcode&id={{id}}" catchtap="alertInfo" catchlongtap="previewImg"></image>
+    <view class="info-box">
+       <text style="display:block;margin-left:100rpx;text-align:left;">场景：{{name}}</text>
+        <text style="display:block;margin-left:100rpx;text-align:left;">账号：{{username}}</text>
+        <text style="display:block;margin-left:100rpx;text-align:left;">　　{{desc}}</text>
     </view>
-    <form bindsubmit="formSubmit">
-        <!-- 逐步使用navigator来替换，减少代码量  -->
-        <button formType="submit" class="mybtn" type="primary">返回场景管理</button>
-    </form>
+  </view>
+  <form bindsubmit="formSubmit">
+
+    <!-- 逐步使用navigator来替换，减少代码量  -->
+    <button formType="submit" class="mybtn" type="primary">返回场景管理</button>
+  </form>
 </view>

@@ -14,14 +14,13 @@
             <view class="weui-form-preview__bd">
                 
                 <view class="weui-form-preview__item">
-                    <view class="weui-form-preview__label">场景备注</view>
-                    <view class="weui-form-preview__value">{{desc}}</view>
+                    <view class="weui-form-preview__value">　　{{desc}}</view>
                 </view>
             </view>
             <view class="weui-form-preview__ft">
                
                 <view class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active" catchtap="deleteOne">删除</view>
-                <navigator class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active" url="../qrcode/qrcode?id={{keys}}">生成二维码</navigator>
+                <navigator class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active" url="../qrcode/qrcode?id={{keys}}&username={{username}}&name={{name}}&desc={{desc}}">生成二维码</navigator>
             </view>
         </view>
     </view>

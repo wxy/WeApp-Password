@@ -5,20 +5,10 @@
         </view>
         <view class="weui-msg__text-area">
             <view class="weui-msg__title">添加成功</view>
-            <view class="weui-msg__desc">回到首页，下拉刷新即可看到增加的场景</view>
         </view>
         <view class="weui-msg__opr-area">
             <view class="weui-btn-area">
-                <button class="weui-btn" type="primary" catchtap="returnIndex">查看密码</button>
-                <!--<button class="weui-btn" type="default">返回首页</button>-->
-            </view>
-        </view>
-        <view class="weui-msg__extra-area">
-            <view class="weui-footer">
-                <view class="weui-footer__links">
-                    <navigator url="" class="weui-footer__link">Linux中国</navigator>
-                </view>
-                <view class="weui-footer__text">Copyright © 2008-2017 Linux中国</view>
+                <button class="weui-btn" type="primary" catchtap="returnIndex">查看场景密码</button>
             </view>
         </view>
     </view>

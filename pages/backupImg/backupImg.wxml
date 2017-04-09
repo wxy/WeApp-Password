@@ -1,10 +1,15 @@
 <view class="container-box">
     <view class="img-box">
-        <canvas bindtap="previewImg" hidden="{{canvasHidden}}" style="width: 686rpx;height: 686rpx;background:#f1f1f1;" canvas-id="mycanvas"/>
+        <text style="display:block;font-size:18px;">运维密码场景备份数据</text>
+        <text style="display:block;margin-top:30rpx;color:#E33;">机密数据！妥善保存！</text>
+        <canvas bindtap="previewImg" hidden="{{canvasHidden}}" style="width: 100%;height: 686rpx;background:#f1f1f1;" canvas-id="mycanvas"/>
+        <text style="display:block;margin-left:100rpx;text-align:left;">备份时间：{{time}}</text>
+        <text style="display:block;margin-left:100rpx;text-align:left;">备份机型：{{model}}</text>
+        <text style="display:block;margin-left:100rpx;text-align:left;">备份条数：{{length}}</text>
     </view>
     
     <form bindsubmit="formSubmit">
-        <button formType="submit" class="mybtn" type="primary">返回设置</button>
+        <button formType="submit" class="mybtn" type="primary">截屏保存后返回</button>
     </form>
 </view>
 <view hidden="{{maskHidden}}" class="mask"></view>

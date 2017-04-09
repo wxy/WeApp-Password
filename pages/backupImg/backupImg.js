@@ -7,20 +7,89 @@ Page({
     所以这里手动控制显示隐藏canvas
     */
     maskHidden: true,
+    openid: '',
     imagePath: '',
     placeholder: 'GetCode'
   },
   onLoad: function (options) {
-    var size = this.setCanvasSize();//动态设置画布大小
-    var text = '[';
-    var secret = wx.getStorageInfoSync();
-    secret.keys.forEach(function (e) {
-      var tmp_data = wx.getStorageSync(e);
-      text = text + '{"k":"' + tmp_data.secret + '","u":"'+tmp_data.username +'","s":"'+tmp_data.signedBy+'"},'
-    });
-    text = text.substring(0,text.length-1);
-    text = text + ']';
-    this.createQrCode(text, "mycanvas", size.w, size.h);
+    var that = this;
+    var date = new Date();
+    var lengths = JSON.parse(wx.getStorageSync('servers')).length;
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          model: res.model,
+          info:res,
+          time:date.toLocaleDateString(),
+          length:lengths
+        })
+        wx.login({
+          success: function (res) {
+
+            wx.request({
+              url: 'https://linux.cn/weixin/api/otp.php?login&code=' + res.code,
+              method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+              success: function (res) {
+                that.setData({
+                  openid: res.data.openid
+                })
+                var servers = wx.getStorageSync('servers');
+                servers = JSON.parse(servers);
+                var server = [];
+                servers.forEach(function(value,index,array){
+                    var obj = new Object();
+                    obj.s = value.secret;
+                    obj.b = encodeURI(value.signedBy);
+                    obj.u = value.username;
+                    obj.la = value.latitude;
+                    obj.lo = value.longitude;
+                    server.push(obj);
+                });
+                var strObj = new Object();
+                var date = new Date();
+                strObj.v = 0.2;
+                strObj.i = that.data.openid;
+                strObj.t = date.toLocaleDateString();
+                strObj.s = server;
+                strObj.e = that.data.model;
+                var text = JSON.stringify(strObj);  
+                var size = that.setCanvasSize();    
+                that.createQrCode(text, "mycanvas", size.w-10, size.h-10);
+              }
+            })
+          },
+          fail: function (res) {
+           var servers = wx.getStorageSync('servers');
+                servers = JSON.parse(servers);
+                var server = [];
+                servers.forEach(function(value,index,array){
+                    var obj = new Object();
+                    obj.s = value.secret;
+                    obj.b = encodeURI(value.signedBy);
+                    obj.u = value.username;
+                    obj.la = value.latitude;
+                    obj.lo = value.longitude;
+                    obj.n =encodeURI(value.name);
+                    obj.d =encodeURI(value.desc);
+                    server.push(obj);
+                });
+            var strObj = new Object();
+            var date = new Date();
+            strObj.v = 0.2;
+            strObj.i = 'none';
+            strObj.t = date.toLocaleDateString();
+            strObj.s = servers;
+            strObj.e = that.data.model;
+            var text = JSON.stringify(strObj);
+            var size = that.setCanvasSize();
+            that.createQrCode(text, "mycanvas", size.w, size.h);
+          }
+        })
+      }
+    })
+
+    
+    // this.createQrCode(text, "mycanvas", size.w, size.h);
 
   },
 
@@ -29,7 +98,7 @@ Page({
     var size = {};
     try {
       var res = wx.getSystemInfoSync();
-      var scale = 750 / 686;//不同屏幕下canvas的适配比例；设计稿是750宽
+      var scale = 750 / 600;//不同屏幕下canvas的适配比例；设计稿是750宽
       var width = res.windowWidth / scale;
       var height = width;//canvas画布为正方形
       size.w = width;

@@ -1,11 +1,31 @@
 <view class="page">
   <view class="page__hd">
-    <view class="page__title">致谢</view>
-    <view class="page__desc">本产品中参考了如下 RFC 和软件：</view>
+    <view class="page__title">运维密码</view>
+    <view class="page__desc">运维密码，你的好帮手</view>
   </view>
   <view class="page__bd">
     <view class="weui-article">
+    <view class="weui-article__h1">版本信息</view>
       <view class="weui-article__section">
+        <view class="weui-article__h3">软件版本</view>
+        <view class="weui-article__p">
+         v 0.6.3
+        </view>
+        <view class="weui-article__h3">数据版本</view>
+        <view class="weui-article__p">
+         v 2.0
+        </view>
+      </view>
+      <view class="weui-article__h1">致谢</view>
+      <view class="weui-article__section">
+        <view class="weui-article__h3">开发者</view>
+        <view class="weui-article__p">
+         @Bestony
+        </view>
+        <view class="weui-article__h3">UI 设计师</view>
+        <view class="weui-article__p">
+         @一一
+        </view>
         <view class="weui-article__h3">TOTP RFC Draft</view>
         <view class="weui-article__p">
          http://tools.ietf.org/id/draft-mraihi-totp-timebased-06.html

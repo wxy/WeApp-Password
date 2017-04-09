@@ -1,1 +1,4 @@
-/* pages/thank/thank.wxss */
+.page__title,.page__desc{
+    text-align: center;
+    margin:  0 auto;
+}

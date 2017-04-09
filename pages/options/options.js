@@ -1,4 +1,8 @@
+var update = require("../../utils/update");
 Page({
+  onLoad:function(){
+    update.checkUpdate();
+  },
   cleanCache: function () {
     wx.clearStorage({
 

@@ -1,39 +1,39 @@
 // pages/backup/backup.js
 Page({
-  data:{
-    key:[]
+  data: {
+    key: []
   },
-  onLoad:function(options){
+  onLoad: function (options) {
     var that = this;
     wx.showToast({
-      "title":"加载本地数据中",
-      "icon":"loading",
-      "duration":1000
+      "title": "加载本地数据中",
+      "icon": "loading",
+      "duration": 1000
     })
-    
-    var secret = wx.getStorageInfoSync();
-    secret.keys.forEach(function(e){
-      var new_key = that.data.key;
-      new_key.push(wx.getStorageSync(e))
+    var raw_server = wx.getStorageSync('servers');
+    var servers = JSON.parse(raw_server);
+    var new_key = [];
+    servers.forEach(function (value,index,array) {
+      new_key.push(value)
       that.setData({
-        key : new_key
+        key: new_key
       });
-    
+
     });
   },
-  onReady:function(){
+  onReady: function () {
     // 页面渲染完成
   },
-  onShow:function(){
+  onShow: function () {
     // 页面显示
   },
-  onHide:function(){
+  onHide: function () {
     // 页面隐藏
   },
-  onUnload:function(){
+  onUnload: function () {
     // 页面关闭
   },
-  redirectTo:function(){
+  redirectTo: function () {
     wx.navigateTo({
       url: '../backupImg/backupImg'
     })

@@ -1,17 +1,17 @@
 <view class="page">
     <view class="page__hd">
-        <view class="page__title">本地种子</view>
+        <view class="page__title">场景</view>
     </view>
     <view class="page__bd">
-        <view class="weui-cells__title">本地种子列表</view>
+        <view class="weui-cells__title">场景列表</view>
         <view class="weui-cells weui-cells_after-title">
            <block wx:for="{{key}}">
             <view class="weui-cell">
-                <view class="weui-cell__bd"> {{item.name}}</view>
+                <view class="weui-cell__bd">{{item.name}}</view>
                 <view class="weui-cell__ft">{{item.username}}</view>
             </view>
            </block>
         </view>
-         <button catchtap = "redirectTo"  class="weui-btn" type="primary">导出所有种子</button>
+         <button catchtap = "redirectTo"  class="weui-btn" type="primary">确认本地备份</button>
     </view>
 </view>

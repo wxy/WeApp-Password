@@ -33,14 +33,6 @@
                     </view>
                 </view>
             </view>
-            <view class="weui-article__h1">关于开发者</view>
-            <view class="weui-article__section">
-                <view class="weui-article__section">
-                    <view class="weui-article__p">
-                    Bestony （白宦成），LCTT 技术组成员。
-                    </view>
-                </view>
-            </view>
         </view>
     </view>
 </view>

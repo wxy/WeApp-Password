@@ -1,29 +1,30 @@
 <view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__hd">
+    <view class="page__title">签发人：{{name}}</view>
+  </view>
   <view class="page__bd">
     <form bindsubmit="submitData">
-      <view class="weui-cells__title" style="color:#1aad19;">签发人:{{name}}</view>
-      <view class="weui-cells__title" style="color:#1aad19;">经纬度：{{latitude}},{{longitude}}</view>
-      <view class="weui-cells__title">帐号</view>
+      <view class="weui-cells__title">场景帐号：</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入文本" name="username" value="{{username}}" />
+            <input class="weui-input" placeholder="帐号" name="username" value="{{username}}" />
           </view>
         </view>
       </view>
-      <view class="weui-cells__title">场景名称</view>
+      <view class="weui-cells__title">场景名称：</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入文本" name="name" value="{{name}}" />
+            <input class="weui-input" placeholder="场景名称" name="name" value="{{name}}" />
           </view>
         </view>
       </view>
-      <view class="weui-cells__title">场景备注</view>
+      <view class="weui-cells__title">场景备注：</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea class="weui-textarea" placeholder="请输入文本" style="height: 3.3em" name="desc" />
+            <textarea class="weui-textarea" placeholder="请输入备注信息" style="height: 3.3em" name="desc" />
           </view>
         </view>
       </view>

@@ -5,7 +5,10 @@ Page({
      * 将ID渲染到页面内。
      */
     that.setData({
-      id:options.id
+      id:options.id,
+      username:options.username,
+      name:options.name,
+      desc:options.desc
     })
   },
   formSubmit: function(e) {

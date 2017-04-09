@@ -3,3 +3,10 @@
 .img-box{padding: 32rpx;background-color: #fff;border-bottom: 1rpx solid #e5e5e5;position: relative}
 .img-box image{width: 700rpx;height:800rpx}
 .mybtn{width:686rpx;margin: 60rpx auto }
+.info-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align:center;
+
+}

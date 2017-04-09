@@ -1,4 +1,5 @@
 const totp = require('../../utils/totp.js');
+var update = require("../../utils/update");
 Page({
   data: {
     servers: [],
@@ -8,12 +9,12 @@ Page({
    * 页面进入时，首先加载一次数据
    */
   onLoad: function (options) {
-    
+    update.checkUpdate();
     var ingress = wx.getStorageSync('ingress');
     /**
      * 如果Ingress 为空，则跳转到引导页
      */
-    if(ingress == ''){
+    if (ingress == '') {
       wx.redirectTo({
         url: '../ingress/ingress'
       })
@@ -22,6 +23,7 @@ Page({
   },
   onReady: function () {
     var that = this;
+
     /**
      * 每秒执行一次
      */
@@ -29,8 +31,12 @@ Page({
       /**
        * 如果当前数据的长度和本地存储中数据长度不同。强制刷新一次数据
        */
-      if (that.data.servers.length != wx.getStorageInfoSync().keys.length) {
-        that.refreshData();
+
+      var mem_server = wx.getStorageSync('servers');
+      if (mem_server != '') {
+        if (JSON.parse(mem_server).length != that.data.servers.length) {
+          that.refreshData();
+        }
       }
       var timestamp = (new Date()).getTime().toString().substr(0, 10);
       var timeHook = timestamp % 30;
@@ -54,53 +60,40 @@ Page({
 
   refreshData: function () {
     var that = this;
+    var raw_server = wx.getStorageSync('servers');
+    if (raw_server == '') {
+      return;
+    }
+    var servers = JSON.parse(raw_server);
     /**
-     * 列举所有keys
+     * 判断当前是否有添加好的场景
      */
-    wx.getStorageInfo({
-      success: function (res) {
-        var keys = res.keys;
-        /**
-         * 判断keys的长度是否为0，即删除了所有的场景，如果是则页面servers置空
-         */
-        if (keys.length == 0) {
-          that.setData({
-            servers: []
-          })
-        }
-        /**
-         * 如果长度相等，则直接获取页面中的servers，进行循环处理。
-         * 循环调用getCode方法计算token，并赋值
-         */
-        if (keys.length == that.data.servers.length) {
-          var server = that.data.servers;
-          server.forEach(function (value, index, array) {
-            value.code = totp.getCode(value.secret);
-          })
-          that.setData({
-            servers: server
-          })
-
-        } else {
-          /**
-           * 如果长度不等，先置空servers，再循环keys,调用同步接口，将数据push到server变量中
-           * 循环完成后，调用setData同步数据
-           */
-          var server = [];
-          keys.forEach(function (i, v, array) {
-            var data = wx.getStorageSync(i);
-            server.push(data);
-            server.forEach(function (value, index, array) {
-              value.code = totp.getCode(value.secret);
-            })
-            that.setData({
-              servers: server
-            })
-          })
-        }
-
-      }
-    })
+    if (servers.length == 0) {
+      that.setData({
+        servers: []
+      })
+    }
+    /**
+     * 判断是否新增了场景
+     */
+    if (servers.length == that.data.servers.length) {
+      var server = that.data.servers;
+      server.forEach(function (value, index, array) {
+        value.code = totp.getCode(value.secret);
+      })
+      that.setData({
+        servers: server
+      })
+    } else {
+      var server = [];
+      servers.forEach(function (value, index, array) {
+        value.code = totp.getCode(value.secret);
+        server.push(value);
+      });
+      that.setData({
+        servers: server
+      })
+    }
   },
   onShareAppMessage: function () {
     /**
@@ -129,8 +122,16 @@ Page({
             icon: 'success',
             duration: 2000,
             success: function () {
+              result = decodeURIComponent(res.result);
+              var username = result.split("/")[3].split("?")[0].split(":")[1];
+              var regexIssuer = result.split("/")[3].split("?")[0].split(":")[0];
+              var issuer  = result.split("issuer=")[1];
+              
+              if ( username == null || issuer != regexIssuer){
+                  username = result.split("/")[3].split("?")[0];
+              }
               wx.navigateTo({
-                url: '../add/add?secret=' + res.result.split("?")[1].split("&")[0].split("=")[1] + "&name=" + res.result.split("/")[3].split("?")[0].split(":")[0] + "&username=" + res.result.split("/")[3].split("?")[0].split(":")[1],
+                url: '../add/add?secret=' + result.split("?")[1].split("&")[0].split("=")[1] + "&name=" + issuer + "&username=" + username,
               })
             }
           })
@@ -168,6 +169,7 @@ Page({
 
             }
           })
+          console.log(res);
         }
       }
     })
