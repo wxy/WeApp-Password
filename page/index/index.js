@@ -61,7 +61,7 @@ Page({
      * 置剪贴板
      */
     wx.setClipboardData({
-      data: e.currentTarget.dataset.code,
+      data: e.currentTarget.dataset.code.replace(" ", ""),
       success: function (res) {
         /**
          * 展示提示
